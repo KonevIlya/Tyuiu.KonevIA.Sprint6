@@ -13,7 +13,7 @@ public class DataServiceTest
             File.WriteAllText(path,"2;2;2;2;2;4;2\n1;1;1;1;1;-2;1\n0;0;0;0;0;0;0\n3;3;3;3;3;3;3");
             int[,] expected={{2,2,2,2,2,111,2},{1,1,1,1,1,-2,1},{0,0,0,0,0,0,0},{3,3,3,3,3,3,3}};
             CollectionAssert.AreEqual(expected,new DataService().GetMatrix(path));
-            CollectionAssert.AreEqual(expected,new DataService().ReadMatrix(path));
+
         }
         finally { File.Delete(path); }
     }
@@ -26,7 +26,7 @@ public class DataServiceTest
             var service=new DataService();
             int[,] matrix={{1,2,3,4,5,111},{-1,-2,-3,-4,-5,-6}};
             service.SaveMatrix(path,matrix);
-            CollectionAssert.AreEqual(matrix,service.LoadMatrix(path));
+            CollectionAssert.AreEqual(matrix,service.GetMatrix(path));
             StringAssert.StartsWith(File.ReadAllText(path),"1;2;3;4;5;111");
         }
         finally { File.Delete(path); }
@@ -43,4 +43,5 @@ public class DataServiceTest
         finally { File.Delete(path); }
     }
 }
+
 
