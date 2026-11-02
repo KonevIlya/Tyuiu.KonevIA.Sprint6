@@ -19,7 +19,7 @@ public partial class FormMain : Form
         try
         {
             var service=new DataService();
-            int[,] input=service.ReadMatrix(dialog.FileName);
+            int[,] input=service.LoadMatrix(dialog.FileName);
             if(input.GetLength(1)<6) throw new FormatException("В матрице должно быть не менее шести столбцов.");
             int[,] output=service.GetMatrix(dialog.FileName);
             ShowMatrix(dataGridViewIn,input);
@@ -39,3 +39,4 @@ public partial class FormMain : Form
         { MessageBox.Show(this,ex.Message,"Ошибка сохранения"); }
     }
 }
+

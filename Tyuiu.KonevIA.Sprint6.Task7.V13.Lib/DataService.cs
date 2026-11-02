@@ -2,7 +2,7 @@ using tyuiu.cources.programming.interfaces.Sprint6;
 namespace Tyuiu.KonevIA.Sprint6.Task7.V13.Lib;
 public class DataService : ISprint6Task7V13
 {
-    public int[,] ReadMatrix(string path)
+    public int[,] LoadMatrix(string path)
     {
         string[] lines = File.ReadAllLines(path).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
         if (lines.Length == 0) return new int[0, 0];
@@ -18,9 +18,10 @@ public class DataService : ISprint6Task7V13
         }
         return matrix;
     }
+    public int[,] ReadMatrix(string path) => GetMatrix(path);
     public int[,] GetMatrix(string path)
     {
-        int[,] matrix = ReadMatrix(path);
+        int[,] matrix = LoadMatrix(path);
         if (matrix.GetLength(1) < 6) return matrix;
         for (int i = 0; i < matrix.GetLength(0); i++)
             if (matrix[i, 5] > 0 && matrix[i, 5] % 2 == 0)
@@ -38,3 +39,4 @@ public class DataService : ISprint6Task7V13
         }
     }
 }
+
