@@ -1,3 +1,4 @@
+using Sprint6Presentation;
 namespace Tyuiu.KonevIA.Sprint6.Task7.V13;
 partial class FormMain
 {
@@ -33,17 +34,17 @@ partial class FormMain
         saveButton=CreateToolbarButton("buttonSaveFile_KIA","💾","Сохранить"); saveButton.Enabled=false; saveButton.Click+=SaveFile;
         actions.Controls.AddRange(new Control[]{open,runButton,saveButton});
         var help=CreateToolbarButton("buttonHelp_KIA","❔","Справка"); help.Dock=DockStyle.Right;
-        help.Click+=(s,e)=>MessageBox.Show(this,"Конев Илья Андреевич\nНТм-25-1\nСпринт 6 | Задание 7 | Вариант 13","О программе");
+        help.Click+=(s,e)=>Ui.About(this,7,13);
+
+        Ui.ToolbarIcon(open,"Открыть","open"); Ui.ToolbarIcon(runButton,"Выполнить","run"); Ui.ToolbarIcon(saveButton,"Сохранить","save"); Ui.ToolbarIcon(help,"Справка","help");
         toolbar.Controls.Add(actions); toolbar.Controls.Add(help);
-        var condition=new GroupBox { Text="Условие:",Dock=DockStyle.Top,Height=92,Padding=new Padding(10) };
-        condition.Controls.Add(new Label { Dock=DockStyle.Fill,Font=new Font("Consolas",10F),Text="Дан файл InPutFileTask7V13.csv с матрицей целых чисел. Загрузить файл через\nOpenFileDialog в dataGridViewIn. В шестом столбце заменить положительные чётные\nэлементы на 111. Результат вывести в dataGridViewOut и сохранить через\nSaveFileDialog в OutPutFileTask7.csv." });
-        var split=new SplitContainer { Dock=DockStyle.Fill,Orientation=Orientation.Vertical,SplitterWidth=6,Size=new Size(1000,350),SplitterDistance=575 };
-        var input=new GroupBox { Text="Ввод:",Dock=DockStyle.Fill,Padding=new Padding(10) };
-        var output=new GroupBox { Text="Вывод:",Dock=DockStyle.Fill,Padding=new Padding(10) };
-        dataGridViewIn=CreateGrid("dataGridViewIn"); dataGridViewOut=CreateGrid("dataGridViewOut");
-        input.Controls.Add(dataGridViewIn); output.Controls.Add(dataGridViewOut);
-        split.Panel1.Controls.Add(input); split.Panel2.Controls.Add(output);
-        pathLabel=new Label { Text="Файл не выбран",Dock=DockStyle.Bottom,Height=22,AutoEllipsis=true };
-        Controls.Add(split); Controls.Add(pathLabel); Controls.Add(condition); Controls.Add(toolbar);
+        var condition=Ui.Condition("Дан файл InPutFileTask7V13.csv с матрицей целых чисел. Загрузить файл через\nOpenFileDialog в dataGridViewIn. В шестом столбце заменить положительные чётные\nчисла на 111. Результат вывести в dataGridViewOut и сохранить в OutPutFileTask7.csv.");
+        condition.Dock=DockStyle.Top; condition.Height=94;
+        var split=new SplitContainer{Dock=DockStyle.Fill,Size=new Size(1000,350),SplitterDistance=575,SplitterWidth=6};
+        dataGridViewIn=CreateGrid("dataGridViewIn");dataGridViewOut=CreateGrid("dataGridViewOut");
+        split.Panel1.Controls.Add(Ui.Group("Ввод:",dataGridViewIn));split.Panel2.Controls.Add(Ui.Group("Вывод:",dataGridViewOut));
+        pathLabel=new Label{Text="Файл не выбран",Dock=DockStyle.Bottom,Height=22,AutoEllipsis=true};
+        Controls.Add(split);Controls.Add(pathLabel);Controls.Add(condition);Controls.Add(toolbar);
     }
 }
+

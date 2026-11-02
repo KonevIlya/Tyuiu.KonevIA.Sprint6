@@ -14,12 +14,14 @@ public partial class FormMain : Form
             return;
         }
         double[] values = new DataService().GetMassFunction(start, stop);
-        var table = new StringBuilder("    x           F(x)\r\n-----------------------\r\n");
+        var table = new StringBuilder("+-------+------------+\r\n|   x   |    F(x)    |\r\n+-------+------------+\r\n");
         var culture = CultureInfo.GetCultureInfo("ru-RU");
         for (int i = 0; i < values.Length; i++)
-            table.AppendLine($"{(long)start + i,5}   {values[i].ToString("F2", culture),12}");
+            table.AppendLine($"|{(long)start + i,6} |{values[i].ToString("F2", culture),11} |");
+        table.AppendLine("+-------+------------+");
         textBoxResult_KIA.Text = table.ToString();
     }
     private void buttonHelp_KIA_Click(object sender, EventArgs e) =>
         MessageBox.Show(this, "Выполнил: Конев Илья Андреевич\nГруппа: НТм-25-1\nСпринт 6 | Задание 1 | Вариант 7", "О программе", MessageBoxButtons.OK, MessageBoxIcon.Information);
 }
+

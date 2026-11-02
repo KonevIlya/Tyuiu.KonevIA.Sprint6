@@ -3,6 +3,7 @@ namespace Tyuiu.KonevIA.Sprint6.Task5.V26;
 public partial class FormMain : Form
 {
     private double[] values=Array.Empty<double>();
+    private string selectedPath;
     public FormMain() => InitializeComponent();
     private void OpenFile(object sender, EventArgs e)
     {
@@ -10,16 +11,27 @@ public partial class FormMain : Form
         if(dialog.ShowDialog(this)!=DialogResult.OK) return;
         try
         {
-            double[] loaded=new DataService().LoadFromDataFile(dialog.FileName);
-            values=loaded;
-            grid.Rows.Clear();
-            for(int i=0;i<values.Length;i++) grid.Rows.Add(i+1,values[i]);
-            pathLabel.Text=dialog.FileName;
-            chart.Invalidate();
-            if(values.Length==0) MessageBox.Show(this,"В файле нет чисел, кратных 5.","Результат");
+            File.ReadAllText(dialog.FileName);
+            selectedPath=dialog.FileName;
+            pathLabel.Text=selectedPath;
+            values=Array.Empty<double>(); grid.Rows.Clear(); chart.Invalidate();
+            runButton.Enabled=true;
         }
         catch(Exception ex) when(ex is IOException || ex is UnauthorizedAccessException || ex is FormatException || ex is OverflowException)
         { MessageBox.Show(this,"Не удалось прочитать файл: "+ex.Message,"Ошибка чтения"); }
+    }
+    private void ProcessFile(object sender,EventArgs e)
+    {
+        try
+        {
+            values=new DataService().LoadFromDataFile(selectedPath);
+            grid.Rows.Clear();
+            for(int i=0;i<values.Length;i++)grid.Rows.Add(i+1,values[i]);
+            chart.Invalidate();
+            if(values.Length==0)MessageBox.Show(this,"В файле нет чисел, кратных 5.","Результат");
+        }
+        catch(Exception ex) when(ex is IOException || ex is UnauthorizedAccessException || ex is FormatException || ex is OverflowException)
+        {MessageBox.Show(this,ex.Message,"Ошибка чтения");}
     }
     private void DrawChart(object sender, PaintEventArgs e)
     {
@@ -49,3 +61,4 @@ public partial class FormMain : Form
         g.DrawString("Значение",Font,Brushes.Black,left,2);
     }
 }
+

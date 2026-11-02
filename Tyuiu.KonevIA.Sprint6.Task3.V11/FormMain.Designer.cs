@@ -1,42 +1,20 @@
+using Sprint6Presentation;
 namespace Tyuiu.KonevIA.Sprint6.Task3.V11;
 partial class FormMain
 {
-    private System.ComponentModel.IContainer components = null;
-    private DataGridView dataGridViewInput_KIA;
-    private DataGridView dataGridViewResult_KIA;
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing) components?.Dispose();
-        base.Dispose(disposing);
-    }
-    private static DataGridView CreateGrid(string name, bool readOnly)
-    {
-        var grid = new DataGridView { Name = name, ReadOnly = readOnly, Dock = DockStyle.Fill,
-            AllowUserToAddRows = false, AllowUserToDeleteRows = false, RowHeadersVisible = false,
-            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill, BackgroundColor = SystemColors.Window };
-        for (int i = 0; i < 5; i++) grid.Columns.Add("Column" + i, (i+1).ToString());
-        return grid;
-    }
+    private System.ComponentModel.IContainer components=null;
+    private DataGridView dataGridViewInput_KIA,dataGridViewResult_KIA;
+    protected override void Dispose(bool disposing){if(disposing)components?.Dispose();base.Dispose(disposing);}
     private void InitializeComponent()
     {
-        Text = "Спринт 6 | Задание 3 | Вариант 11 | Конев И. А.";
-        ClientSize = new Size(880, 420);
-        MinimumSize = new Size(896, 459);
-        StartPosition = FormStartPosition.CenterScreen;
-        Font = new Font("Segoe UI", 10F);
-        var condition = new GroupBox { Text = "Условие", Location = new Point(16,16), Size = new Size(848,86) };
-        condition.Controls.Add(new Label { Text = "Дана матрица 5 × 5. Отсортировать первый столбец по возрастанию.\nОстальные столбцы сохранить. Результат вывести в DataGridView.", Location = new Point(16,28), AutoSize = true });
-        var input = new GroupBox { Text = "Исходная матрица", Location = new Point(16,118), Size = new Size(416,210) };
-        var output = new GroupBox { Text = "Результат", Location = new Point(448,118), Size = new Size(416,210) };
-        dataGridViewInput_KIA = CreateGrid("dataGridViewInput_KIA", false);
-        dataGridViewResult_KIA = CreateGrid("dataGridViewResult_KIA", true);
-        input.Controls.Add(dataGridViewInput_KIA);
-        output.Controls.Add(dataGridViewResult_KIA);
-        var help = new Button { Text = "Справка", Location = new Point(594,354), Size = new Size(120,44) };
-        help.Click += buttonHelp_KIA_Click;
-        var calculate = new Button { Text = "Выполнить", Location = new Point(730,354), Size = new Size(134,44) };
-        calculate.Click += buttonCalculate_KIA_Click;
-        AcceptButton = calculate;
-        Controls.AddRange(new Control[] { condition, input, output, help, calculate });
+        Ui.Setup(this,3,11,1020,480);
+        var layout=Ui.Layout(3,2);layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,34));layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,33));layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,33));
+        layout.RowStyles.Add(new RowStyle(SizeType.Percent,100));layout.RowStyles.Add(new RowStyle(SizeType.Absolute,65));
+        layout.Controls.Add(Ui.Condition("Дана матрица 5 × 5:\n27 -15  14   2  27\n-8  14 -10  33   0\n 1   7 -11 -11  23\n-13 -20 15 -16  34\n-3   1  -1   5   1\n\nВыполнить сортировку\nпо возрастанию\nв первом столбце."),0,0);
+        dataGridViewInput_KIA=Ui.Grid("dataGridViewInput_KIA",false);dataGridViewResult_KIA=Ui.Grid("dataGridViewResult_KIA");
+        foreach(var grid in new[]{dataGridViewInput_KIA,dataGridViewResult_KIA}) {grid.ColumnHeadersVisible=false;for(int j=0;j<5;j++)grid.Columns.Add("C"+j,"");grid.AutoSizeColumnsMode=DataGridViewAutoSizeColumnsMode.Fill;}
+        layout.Controls.Add(Ui.Group("Ввод данных:",dataGridViewInput_KIA),1,0);layout.Controls.Add(Ui.Group("Вывод данных — результат:",dataGridViewResult_KIA),2,0);
+        var buttons=new FlowLayoutPanel {Dock=DockStyle.Fill,FlowDirection=FlowDirection.RightToLeft};buttons.Controls.Add(Ui.Button("Выполнить",buttonCalculate_KIA_Click,SystemColors.Control));buttons.Controls.Add(Ui.Help(this,3,11));
+        layout.Controls.Add(buttons,0,1);layout.SetColumnSpan(buttons,3);Controls.Add(layout);
     }
 }

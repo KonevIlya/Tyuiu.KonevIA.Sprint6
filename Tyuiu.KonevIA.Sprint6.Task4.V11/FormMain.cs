@@ -33,10 +33,11 @@ public partial class FormMain : Form
     }
     private void DrawGraph(object sender, PaintEventArgs e)
     {
+        e.Graphics.DrawString("График функции F(x)", Font, Brushes.Navy, 80, 10);
         if (values.Length == 0) return;
         var g = e.Graphics;
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        float left=60, top=25, width=graph.ClientSize.Width-85, height=graph.ClientSize.Height-70;
+        float left=60, top=50, width=graph.ClientSize.Width-85, height=graph.ClientSize.Height-95;
         if (width<=0 || height<=0) return;
         double min=Math.Min(0,values.Min()), max=Math.Max(0,values.Max());
         if(max==min) max=min+1;
@@ -65,6 +66,8 @@ public partial class FormMain : Form
         g.DrawString(rangeStart.ToString(),Font,Brushes.Black,left,top+height+8);
         g.DrawString(((long)rangeStart+values.Length-1).ToString(),Font,Brushes.Black,left+width-20,top+height+8);
         g.DrawString("x",Font,Brushes.Black,left+width+5,Y(0));
-        g.DrawString("F(x)",Font,Brushes.Black,left,3);
+
     }
 }
+
+

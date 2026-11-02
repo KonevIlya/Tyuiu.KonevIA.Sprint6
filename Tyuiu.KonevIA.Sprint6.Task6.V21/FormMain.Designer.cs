@@ -1,32 +1,26 @@
+using Sprint6Presentation;
 namespace Tyuiu.KonevIA.Sprint6.Task6.V21;
 partial class FormMain
 {
     private System.ComponentModel.IContainer components=null;
-    private TextBox textBoxIn, textBoxOut;
+    private TextBox textBoxIn,textBoxOut;
     private Button runButton;
     private Label pathLabel;
-    protected override void Dispose(bool disposing)
-    {
-        if(disposing) components?.Dispose();
-        base.Dispose(disposing);
-    }
+    protected override void Dispose(bool disposing){if(disposing)components?.Dispose();base.Dispose(disposing);}
     private void InitializeComponent()
     {
-        Text="Спринт 6 | Задание 6 | Вариант 21 | Конев И. А.";
-        ClientSize=new Size(1000,560); MinimumSize=new Size(1016,599);
-        Font=new Font("Segoe UI",10F); StartPosition=FormStartPosition.CenterScreen;
-        var condition=new GroupBox { Text="Условие",Location=new Point(16,16),Size=new Size(968,90) };
-        condition.Controls.Add(new Label { Text="Загрузить InPutFileTask6V21.txt через диалог выбора файла.\nВывести в результирующую строку слова, содержащие латинскую букву g.",Location=new Point(16,28),AutoSize=true });
-        var input=new GroupBox { Text="Исходный текст",Location=new Point(16,122),Size=new Size(476,340) };
-        var output=new GroupBox { Text="Результат",Location=new Point(508,122),Size=new Size(476,340) };
-        textBoxIn=new TextBox { Name="textBoxIn",Multiline=true,ReadOnly=true,ScrollBars=ScrollBars.Both,Dock=DockStyle.Fill };
-        textBoxOut=new TextBox { Name="textBoxOut",Multiline=true,ReadOnly=true,ScrollBars=ScrollBars.Both,Dock=DockStyle.Fill };
-        input.Controls.Add(textBoxIn); output.Controls.Add(textBoxOut);
-        pathLabel=new Label { Text="Файл не выбран",Location=new Point(16,480),Size=new Size(450,60),AutoEllipsis=true };
-        var open=new Button { Text="Открыть файл",Location=new Point(492,480),Size=new Size(152,44) }; open.Click+=OpenFile;
-        var help=new Button { Text="Справка",Location=new Point(662,480),Size=new Size(152,44) };
-        help.Click+=(s,e)=>MessageBox.Show(this,"Конев Илья Андреевич\nНТм-25-1\nСпринт 6 | Задание 6 | Вариант 21","О программе");
-        runButton=new Button { Text="Выполнить",Location=new Point(832,480),Size=new Size(152,44),Enabled=false }; runButton.Click+=Run;
-        Controls.AddRange(new Control[]{condition,input,output,pathLabel,open,help,runButton});
+        Ui.Setup(this,6,21,1080,650);
+        var toolbar=new Panel{Dock=DockStyle.Top,Height=78,BorderStyle=BorderStyle.FixedSingle};
+        var open=Ui.Button("📂\nОткрыть",OpenFile,SystemColors.Control);open.Location=new Point(4,4);
+        runButton=Ui.Button("➜\nВыполнить",Run,SystemColors.Control);runButton.Location=new Point(124,4);runButton.Enabled=false;
+        var help=Ui.Help(this,6,21);help.Text="❔\nО программе";help.Dock=DockStyle.Right;toolbar.Controls.AddRange(new Control[]{open,runButton,help});
+        Ui.ToolbarIcon(open,"Открыть","open"); Ui.ToolbarIcon(runButton,"Выполнить","run"); Ui.ToolbarIcon(help,"О программе","help");
+        var condition=Ui.Condition("Дан файл InPutFileTask6V21.txt, который может находиться в любом месте на диске.\nЗагрузить файл в textBoxIn через OpenFileDialog. Вывести слова, в которых\nвстречается латинская буква g, в результирующую строку textBoxOut.");condition.Dock=DockStyle.Top;condition.Height=94;
+        var split=new SplitContainer{Dock=DockStyle.Fill,Size=new Size(1080,450),SplitterDistance=535};
+        textBoxIn=Ui.Text("textBoxIn");textBoxOut=Ui.Text("textBoxOut");textBoxIn.WordWrap=true;textBoxOut.WordWrap=true;
+        split.Panel1.Controls.Add(Ui.Group("Ввод:",textBoxIn));split.Panel2.Controls.Add(Ui.Group("Вывод:",textBoxOut));
+        pathLabel=new Label{Text="Файл не выбран",Dock=DockStyle.Bottom,Height=22,AutoEllipsis=true};
+        Controls.Add(split);Controls.Add(pathLabel);Controls.Add(condition);Controls.Add(toolbar);
     }
 }
+

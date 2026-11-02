@@ -14,6 +14,7 @@ public partial class FormMain : Form
             return;
         }
         double[] values = new DataService().GetMassFunction(start, stop);
+        plot.Values=values; plot.Start=start; plot.Invalidate();
         dataGridViewResult_KIA.Rows.Clear();
         for (int i = 0; i < values.Length; i++)
             dataGridViewResult_KIA.Rows.Add((long)start + i, values[i]);
@@ -21,4 +22,5 @@ public partial class FormMain : Form
     private void buttonHelp_KIA_Click(object sender, EventArgs e) =>
         MessageBox.Show(this, "Выполнил: Конев Илья Андреевич\nГруппа: НТм-25-1\nСпринт 6 | Задание 2 | Вариант 4", "О программе", MessageBoxButtons.OK, MessageBoxIcon.Information);
 }
+
 
